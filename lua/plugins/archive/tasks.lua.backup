@@ -1,0 +1,52 @@
+local M = {
+    "athanase/neovim-additional-tasks",
+    event = "BufReadPre *.cpp, BufReadPre *.h",
+    dependencies = {
+        "Shatur/neovim-tasks",
+        "neovim/nvim-lspconfig",
+        "nvim-lua/plenary.nvim",
+    },
+}
+
+function M.config()
+    require("tasks").setup({
+        default_params = {
+            cmake_kits = {
+                cmd = "cmake",
+                args = {
+                    configure = {
+                        "-D",
+                        "CMAKE_EXPORT_COMPILE_COMMANDS=1",
+                        "-D",
+                        "CMAKE_COLOR_DIAGNOSTICS=ON",
+                        "-G",
+                        "Ninja",
+                    },
+                },
+                build_type = "release",
+                build_kit = "clang",
+                build_dir = "{cwd}/build/{build_kit}/{build_type}",
+                cmake_kits_file = vim.api.nvim_get_runtime_file("cmake_kits.json", false)[1],
+                cmake_build_types_file = vim.api.nvim_get_runtime_file("cmake_build_types.json", false)[1],
+                clangd_cmdline = {
+                    "clangd",
+                    "--background-index",
+                    "--clang-tidy",
+                    "--header-insertion=never",
+                    "--offset-encoding=utf-16",
+                    "--pch-storage=memory",
+                    "-j=11",
+                },
+                dap_name = "Launch",
+            },
+        },
+        save_before_run = true,
+        quickfix = {
+            pos = "botright",
+            -- pos = "tab",
+            height = 20,
+        },
+    })
+end
+
+return M

@@ -1,0 +1,13 @@
+local M = {
+    "Pocco81/auto-save.nvim",
+    event = "VeryLazy",
+}
+
+function M.config()
+    require("auto-save").setup({
+        enabled = false,
+        debounce_delay = 250
+    })
+end
+
+return M

@@ -1,0 +1,20 @@
+local M = {
+    "nvim-neotest/neotest",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        "antoinemadec/FixCursorHold.nvim",
+        "alfaix/neotest-gtest",
+    },
+    event = "VeryLazy",
+}
+
+function M.config()
+    require("neotest").setup({
+        adapters = {
+            require("neotest-gtest")
+        }
+    })
+end
+
+return M
